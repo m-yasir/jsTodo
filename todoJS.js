@@ -1,3 +1,4 @@
+// Function Used to clean the DOM
 function clean(node) {
     for (var n = 0; n < node.childNodes.length; n++) {
         var child = node.childNodes[n];
@@ -9,37 +10,19 @@ function clean(node) {
         }
     }
 }
-clean(document);
+clean(document); //executing DOM cleaning
 
 
+// Getting Saved Todo-Tasks from the Local Storage
 if (JSON.parse(window.localStorage.getItem("a")) != null && JSON.parse(window.localStorage.getItem("a")) != undefined) {
     var array = JSON.parse(window.localStorage.getItem("a"));
 } else {
     var array = [];
 }
 
-
 generator();
 
-
-function del() {
-    var val = window.prompt("Enter Task no. to delete!");
-    var oL = document.getElementsByClassName('cur');
-    var check = false;
-    for (var i = 0; i < oL.length; i++) {
-        if (i == (val - 1)) {
-            check = true;
-            var ml = oL[i].parentNode.parentNode.parentNode.removeChild(oL[i].parentNode.parentNode);
-            set_();
-            break;
-        }
-    }
-    if (check == false) {
-        window.alert("Task does not exist!");
-    }
-}
-
-
+// Function to Generate Todos.
 function generator() {
     var table = document.getElementById("tbl");
     table.innerHTML = "";
@@ -65,58 +48,55 @@ function generator() {
         var ind = i;
         tr.getElementsByClassName('edit-btn')[0].addEventListener("click", function () {
             this.parentNode.getElementsByClassName('cur')[0].focus();
-            // this.parentNode.getElementsByClassName('mark')[0].innerHTML = "Mark as Done";
             this.parentNode.getElementsByClassName('mark')[0].setAttribute("disabled", "disabled");
             edit(this);
         });
         tr.getElementsByClassName('del-btn')[0].addEventListener("click", function () {
-            delit(this);
+            deleteTodo(this);
         });
         tr.getElementsByClassName('mark')[0].addEventListener("click", function () {
-            m_ark(this);
+            markTodo(this);
         });
     }
 }
 
-
-function set_() {
+// Function to set 
+function setLocalStorage() {
     window.localStorage.setItem('a', JSON.stringify(array));
     console.log(window.localStorage);
 }
 
-
-function m_ark(tii) {
-    var input_field = tii.parentNode.getElementsByClassName('cur')[0];
+// Function to mark todo
+function markTodo(todo) {
+    var input_field = todo.parentNode.getElementsByClassName('cur')[0];
     var style_value = input_field.getAttribute("style");
-    var index = tii.parentNode.parentNode.getAttribute("index");
+    var index = todo.parentNode.parentNode.getAttribute("index");
     console.log(style_value);
     if (style_value == "text-decoration:none;color:black;") {
         input_field.setAttribute("style", "text-decoration:line-through;color:red;");
         array[index].check = true;
-        tii.parentNode.getElementsByClassName('edit-btn')[0].setAttribute('disabled', 'disabled');
+        todo.parentNode.getElementsByClassName('edit-btn')[0].setAttribute('disabled', 'disabled');
         array[index].edit = true;
-        tii.innerHTML = "Unmark";
+        todo.innerHTML = "Unmark";
     }
     if (style_value == "text-decoration:line-through;color:red;") {
         input_field.setAttribute("style", "text-decoration:none;color:black;");
-        // tii.parentNode.parentNode.parentNode.setAttribute("done","text-decoration:none;color:black;");
-        tii.innerHTML = "Mark as Done";
+        todo.innerHTML = "Mark as Done";
         array[index].check = false;
         array[index].edit = true;
-        tii.parentNode.getElementsByClassName('edit-btn')[0].removeAttribute('disabled');
+        todo.parentNode.getElementsByClassName('edit-btn')[0].removeAttribute('disabled');
     }
-    set_();
+    setLocalStorage();
 }
 
-
-function delit(tis) {
-    tis.parentNode.parentNode.parentNode.removeChild(tis.parentNode.parentNode);
-    var index = tis.parentNode.parentNode.getAttribute("index");
+// Function to Delete Todo
+function deleteTodo(todo) {
+    todo.parentNode.parentNode.parentNode.removeChild(todo.parentNode.parentNode);
+    var index = todo.parentNode.parentNode.getAttribute("index");
     for (var i = 0; i < array.length; i++) {
         if (i == index) {
             array.splice(i, 1);
-            console.log(array.text);
-            set_();
+            setLocalStorage();
             break;
         }
     }
@@ -124,13 +104,14 @@ function delit(tis) {
 }
 
 
-function edit(tiss) {
-    tiss.previousSibling.removeAttribute("disabled");
-    var nb = document.createElement('button');
-    tiss.parentNode.getElementsByClassName('cur')[0].focus();
+// Function to edit Todo
+function edit(todo) {
+    todo.previousSibling.removeAttribute("disabled");
+    var newbtn = document.createElement('button');
+    todo.parentNode.getElementsByClassName('cur')[0].focus();
     if (document.getElementById('btnn') == undefined) {
-        nb.setAttribute("id", "btnn");
-        nb.innerHTML = "Done";
+        newbtn.setAttribute("id", "btnn");
+        newbtn.innerHTML = "Done";
         var index = tiss.parentNode.parentNode.getAttribute("index");
         var newdata = {
             text: "",
@@ -138,27 +119,27 @@ function edit(tiss) {
         };
 
         function editbtn(){
-            tiss.parentNode.getElementsByClassName('cur')[0].setAttribute("disabled", "disabled");
-            nb.parentNode.getElementsByClassName('mark')[0].removeAttribute('disabled');
-            nb.parentNode.removeChild(nb);
-            newdata.text = tiss.parentNode.getElementsByClassName('cur')[0].value;
+            todo.parentNode.getElementsByClassName('cur')[0].setAttribute("disabled", "disabled");
+            newbtn.parentNode.getElementsByClassName('mark')[0].removeAttribute('disabled');
+            newbtn.parentNode.removeChild(newbtn);
+            newdata.text = todo.parentNode.getElementsByClassName('cur')[0].value;
             array.splice(index, 1, newdata);
-            set_();
+            setLocalStorage();
             generator();
         }
         
-        tiss.parentNode.getElementsByClassName('cur')[0].addEventListener('keypress',function(e){
+        todo.parentNode.getElementsByClassName('cur')[0].addEventListener('keypress',function(e){
             if(e.keyCode === 13)
             editbtn();
         });
-        nb.addEventListener("click", function () {
+        newbtn.addEventListener("click", function () {
             editbtn();
         });
-        tiss.parentNode.appendChild(nb);
+        todo.parentNode.appendChild(newbtn);
     }  
 }
 
-
+// Function to Add Todo.
 function todo() {
     var todo = {
         text: "",
@@ -168,74 +149,19 @@ function todo() {
     todo.text = document.getElementById("task").value;
     if (todo.text != "" && todo.text != null && todo.text != undefined) {
         array.push(todo);
-        set_();
+        setLocalStorage();
         generator();
     }
 }
 
-
+// Eventlistener to add Task on enter.
 document.getElementById("task").addEventListener("keypress", function (e) {
       if(e.keyCode === 13){
           todo();
       }
 });
 
-
+//Event Listener to add task on click.
 document.getElementById('add').addEventListener('click',function(){
     todo();
 });
-// for(var i=0;i<ggp.length;i++);
-// function fn(cb){
-//     setTimeout(function(){
-//         //
-//         //
-//         //
-//         cb(false);
-//     }, 3000)
-
-
-// }
-
-// fn(function(isExists){
-
-//     alert("dsa")
-// })
-
-// document.getElementById("btn").addEventListener('click', function(){
-//     alert("clicked");
-// });
-// alert("here");
-
-// function fn(a){
-//     return function(){
-//         return function(){
-//             alert(a)
-//         }
-//     }
-// }
-
-// var b = fn(2);
-
-// var a = function (i) 
-//     {
-//         return function() 
-//         {
-//             console.log(i);
-//         };
-//     }
-// for (var i = 0; i < 10; i++) 
-// {
-//     // function fn(val){
-//     //     setTimeout(function(){
-//     //         console.log(val);
-//     //     }, 1000);
-//     // }
-//     // fn(i);
-
-//     (function (val){
-//         setTimeout(function(){
-//             console.log(val);
-//         }, 1000);
-//     })(i);
-//     // setTimeout(a(i)(), 1000);
-// }
