@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="todoCSS.css"/>
+    <title>Todo Site</title> 
+</head>
+
+<body>
+    <div>
+        <fieldset style="width:10%;margin:0 auto;">
+            <legend>Todo</legend>
+            <input type="text" class="inp" id="task" placeholder="Task..." />
+            <br />
+            <button id="add" style="margin-left:62px;">Add</button>
+            <!-- <button class="btn">Delete</button> -->
+        </fieldset>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                </tr>
+            </thead>
+            <tbody id="tbl">
+            </tbody>
+        </table>
+    </div>
+    <script src="todoJS.js"></script>
+</body>
+
+</html>

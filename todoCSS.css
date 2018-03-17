@@ -1,0 +1,82 @@
+table {
+    margin-top: 30px;
+    width: 27%;
+    margin-left: auto;
+    margin-right: auto;
+}
+fieldset{
+    border: 1.5px solid black;
+    border-radius:4px;
+}
+legend{
+    /* background-color:rgb(255, 242, 217); */
+    border:1px solid grey;
+    border-radius: 2px;
+    font-weight: bolder;
+}
+table,
+th {
+    border: 1px solid black;
+    border-bottom: 3px solid black;
+    border-collapse: collapse;
+    padding:5px;
+    background-color: white;
+}
+
+tr{ 
+    background-color:white;
+    border:none;
+    border-bottom: 2px solid black;
+}
+
+.inp {
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+button {
+    border: .01px solid white;
+    border-radius: 2px;
+    margin-right: 5px;
+
+}
+
+td {
+    text-align: center;
+}
+
+body {
+    width: 100%;
+    background-image: url(test.JPG);
+    margin: 0;
+}
+
+div {
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cur {
+    /* width:auto; */
+    overflow: auto;
+    border: none;
+    background-color: inherit;
+    color: black;
+    margin-right:15px;
+    text-align: center;
+}
+
+.cur:hover {
+    cursor: text;
+}
+
+.btn {
+    margin-top: 4px;
+    /* margin-right:5px; */
+}
+input{
+    overflow: scroll;
+}
