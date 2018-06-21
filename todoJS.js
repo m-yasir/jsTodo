@@ -112,7 +112,7 @@ function edit(todo) {
     if (document.getElementById('btnn') == undefined) {
         newbtn.setAttribute("id", "btnn");
         newbtn.innerHTML = "Done";
-        var index = tiss.parentNode.parentNode.getAttribute("index");
+        var index = todo.parentNode.parentNode.getAttribute("index");
         var newdata = {
             text: "",
             check: array[index].check
